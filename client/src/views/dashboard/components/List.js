@@ -148,3 +148,47 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 export default connect(mapStateToProps)(List);
+
+
+// const editListTitle = async () => {
+//   const { listId, dispatch } = props;
+//   const { title } = state;
+
+//   try {
+//     const response = await axios.put(
+//       `http://localhost:5000/api/board/lists/${listId}`,
+//       { title }, // Updated title
+//       {
+//         headers: {
+//           'Content-Type': 'application/json'
+//         }
+//       }
+//     );
+
+//     // Assuming the response.data contains the updated list data
+//     dispatch({
+//       type: "CHANGE_LIST_TITLE",
+//       payload: { listId, listTitle: response.data.title }
+//     });
+
+//     toggleEditingTitle(); // Close the editing mode
+//   } catch (error) {
+//     console.error('Error editing list title:', error);
+//   }
+// };
+
+
+// const deleteList = async () => {
+//   if (window.confirm("Are you sure to delete this list?")) {
+//     try {
+//       await axios.delete(`http://localhost:5000/api/board/lists/${listId}`);
+
+//       dispatch({
+//         type: "DELETE_LIST",
+//         payload: { listId, cards: list.cards }
+//       });
+//     } catch (error) {
+//       console.error('Error deleting list:', error);
+//     }
+//   }
+// };

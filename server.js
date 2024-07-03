@@ -14,13 +14,6 @@ app.use(express.json());
 
 app.get('/', async (req, res) => {
   let db = await maintask.maintaskgetdata();
-  console.log(db);
-  // for (let index = 0; index < db.length; index++) {
-  //   const element = db[index];
-  //   console.log("element", element._id.toString());
-  // }
-  // let result = await db.find().toArray();
-  // res.send(result)
 })
 
 const Task = new mongoose.Schema({
@@ -29,8 +22,7 @@ const Task = new mongoose.Schema({
   parentId: String,
 });
 
-// const cardRoutes = require('./routers');
-// app.use('/api/board', cardRoutes);
+
 const MainTask = mongoose.model('maintask', Task);
 const SubtTask = mongoose.model('subtask', Task);
 
@@ -45,43 +37,71 @@ app.post('/api/board/add', async (req, res) => {
 });
 
 app.post('/api/board/addlist', async (req, res) => {
-  // maintask.maintaskgetdata.aggregate([
-  //   {
-  //     $lookup:
-  //     {
-  //       from: "subtasks",
-  //       localField: "_id",
-  //       foreignField: "cardId",
-  //       as: "tasklist"
-  //     }
-  //   },
-  // ]).then((result) => {
-    //   console.log("result", result);
-    // }).catch((err) => {
-      //   console.log(err);
-      // });
       const { listId, title } = req.body;
-      console.log("req.body  >>>>>>>>>>>>", req.body);
+      console.log("req.body  >>>>>>>>>>>> ", req.body);
       let data = new MainTask({ title: title });
       await data.save();
         res.send(data);
 });
 
+app.listen(5000);
 
 
-app.delete('/api/board/deletelist/:id', async (req, res) => {
-  const { listId, cardId } = req.body;
 
-  let db = await maintask.subtaskgetdata();
-  const data = await db.deleteOne({ cardId: req.params._id });
-  console.log("data", data);
-  res.send(data)
+// Example server-side code (Node.js + Express)
 
+const express = require('express');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const List = require('./models/List'); // Your Mongoose List model
+
+const app = express();
+const port = 5000;
+
+app.use(bodyParser.json());
+
+// Connect to MongoDB
+mongoose.connect('mongodb://localhost:27017/your-database', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false
 });
 
+// Define routes
+// Update a list (PUT request)
+// app.put('/api/board/lists/:listId', async (req, res) => {
+//   try {
+//     const { listId } = req.params;
+//     const { title } = req.body;
 
+//     const updatedList = await List.findByIdAndUpdate(
+//       listId,
+//       { title },
+//       { new: true }
+//     );
 
+//     res.json(updatedList);
+//   } catch (error) {
+//     console.error('Error updating list:', error);
+//     res.status(500).json({ error: 'Internal server error' });
+//   }
+// });
 
+// // Delete a list (DELETE request)
+// app.delete('/api/board/lists/:listId', async (req, res) => {
+//   try {
+//     const { listId } = req.params;
 
+//     await List.findByIdAndDelete(listId);
 
-app.listen(5000);
+//     res.json({ message: 'List deleted successfully' });
+//   } catch (error) {
+//     console.error('Error deleting list:', error);
+//     res.status(500).json({ error: 'Internal server error' });
+//   }
+// });
+
+// // Start server
+// app.listen(port, () => {
+//   console.log(`Server is running on http://localhost:${port}`);
+// });

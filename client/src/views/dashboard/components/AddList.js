@@ -31,7 +31,7 @@ function AddList(props) {
       console.log("response ::::::::: >", response);
       dispatch({
         type: "ADD_LIST",
-        payload: { listId: response.data._id, listTitle: response.data.title }
+        payload: { listId: listId, listTitle: title }
       });
 
     } catch (error) {
